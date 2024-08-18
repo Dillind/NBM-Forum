@@ -64,9 +64,6 @@ const PersonalInformation = () => {
       const presignedUrl = uploadResponse.url;
       const bucketFileName = uploadResponse.fileName;
 
-      // console.log("Upload Response URL:", presignedUrl);
-      // console.log("Upload Filename:", bucketFileName);
-
       const uriToBlob = async (uri: string) => {
         const blob = await new Promise<Blob>((resolve, reject) => {
           const xhr = new XMLHttpRequest();
@@ -95,22 +92,6 @@ const PersonalInformation = () => {
       const blobResponse = await uriToBlob(imageUri);
       console.log("BLOB RESPONSE:", blobResponse);
 
-      // Upload the blob to S3
-      // const uploadImageResponse = await fetch(presignedUrl, {
-      //   method: "PUT",
-      //   body: blob,
-      //   headers: {
-      //     "Content-Type": blob.type,
-      //   },
-      // });
-
-      // TODO: Resize image
-      // const resizeResponse = await FileService.resizeImage({
-      //   fileName: bucketFileName!!,
-      //   height: 100,
-      //   width: 100,
-      // });
-
       const downloadResponse = await FileService.downloadImage(
         bucketFileName!!
       );
@@ -126,25 +107,6 @@ const PersonalInformation = () => {
       setUploading(false);
     }
   };
-
-  // const uriToBlob = async (uri: string) => {
-  //   const response = await fetch(uri);
-  //   const blob = await response.blob();
-
-  //   const uploadImageResponse = await fetch(presignedUrl, {
-  //     method: "PUT",
-  //     body: blob,
-  //     headers: {
-  //       "Content-Type": blob.type,
-  //     },
-  //   });
-
-  //   if (!uploadImageResponse.ok) {
-  //     console.error(`Upload Failed: ${uploadImageResponse.statusText}`);
-  //   }
-  //   console.log("Upload Response Status:", uploadImageResponse.status);
-  //   return uploadImageResponse;
-  // };
 
   return (
     <GestureHandlerRootView
