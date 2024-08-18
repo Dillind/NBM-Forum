@@ -25,6 +25,7 @@ const FormField = ({
   onChangeText,
   requiredInput,
 }: FormFieldProps) => {
+  
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -40,6 +41,7 @@ const FormField = ({
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={title?.includes("Password") && !showPassword}
+          placeholderTextColor="#888888"
         />
         {title?.includes("Password") && (
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "rgba(1, 2, 20, 0.2)",
+    borderColor: "rgba(1, 2, 20, 0.3)",
     height: 51,
     paddingHorizontal: 14,
   },
