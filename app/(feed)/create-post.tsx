@@ -1,11 +1,9 @@
 import TopBarSave from "@/components/core/TopBarSave";
-import React from "react";
 import { StyleSheet, View } from "react-native";
 import {
   GestureHandlerRootView,
   TextInput,
 } from "react-native-gesture-handler";
-import "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import { Post } from "@/types/post";
 import Colors from "@/constants/colors";
@@ -48,6 +46,7 @@ const CreatePost = () => {
                 value={value}
                 onChangeText={onChange}
                 placeholder="Enter post title..."
+                placeholderTextColor="#888888"
                 style={styles.titleInput}
               />
               {errors.title && <ErrorMessage error={errors.title.message} />}
@@ -65,6 +64,7 @@ const CreatePost = () => {
                 onChangeText={onChange}
                 placeholder="Enter your body text..."
                 style={styles.contentInput}
+                placeholderTextColor="#888888"
                 multiline
               />
               {errors.content && (
