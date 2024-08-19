@@ -1,5 +1,5 @@
 import ForumHeader from "@/components/forum/ForumHeader";
-import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import SearchBar from "@/components/forum/SearchBar";
 import { useCallback, useState } from "react";
@@ -18,7 +18,7 @@ const Forum = () => {
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["posts", selectedCategory],
-    queryFn: async ({ pageParam = 1 }: { pageParam: number }) => {
+    queryFn: async ({ pageParam = 1 }) => {
       const result = await PostService.searchPosts({
         page: pageParam,
         limit: 10,
@@ -33,13 +33,13 @@ const Forum = () => {
     },
   });
 
-  // Combine all pages of data and sorts the posts in descending order (from newest to oldest)
+  // Combines all pages of data and sorts the posts in descending order (from newest to oldest) //TODO: Look into.
   const posts =
     data?.pages
       .flatMap((page) => page.data)
       .sort(
         (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       ) || [];
 
   const renderSeperator = () => (
@@ -60,6 +60,7 @@ const Forum = () => {
     ),
     []
   );
+
   return (
     <GestureHandlerRootView
       style={[{ paddingTop: top, paddingBottom: bottom }, styles.container]}
@@ -88,7 +89,7 @@ const Forum = () => {
           </View>
         }
         ItemSeparatorComponent={() => <View style={styles.separator} />}
-        maxToRenderPerBatch={10}
+        initialNumToRender={5}
         showsVerticalScrollIndicator={false}
       />
     </GestureHandlerRootView>
