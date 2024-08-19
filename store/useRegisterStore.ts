@@ -51,9 +51,9 @@ const initialUserState: UserFormData = {
 
 export const useRegisterStore = create<RegisterStoreState>((set) => ({
   user: initialUserState,
-  stepOne: null,
-  stepTwo: null,
-  stepThree: null,
+  stepOnePersonalInformation: null,
+  stepTwoLocation: null,
+  stepThreePasswords: null,
   setData: ({ step, data }) => {
     set((state) => {
       const stepKey = stepVariant[step];
