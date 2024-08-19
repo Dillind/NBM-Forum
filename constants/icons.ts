@@ -26,6 +26,7 @@ type IconProps = {
   chatBubble: ImageSourcePropType;
   arrowDropdown: ImageSourcePropType;
   arrowForward: ImageSourcePropType;
+  thumbsUp: ImageSourcePropType;
 };
 
 const icons: IconProps = {
@@ -54,6 +55,7 @@ const icons: IconProps = {
   chatBubble: require("../assets/icons/chat-bubble-outline.png"),
   arrowDropdown: require("../assets/icons/arrow-dropdown.png"),
   arrowForward: require("../assets/icons/arrow-forward.png"),
+  thumbsUp: require("../assets/icons/thumbs-up.png"),
 };
 
 export default icons;

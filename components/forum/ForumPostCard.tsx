@@ -10,6 +10,7 @@ import { getCurrentUser } from "@/constants/primitives";
 import { formatDate } from "@/utils/formatDate";
 import { usePostStore } from "@/store/usePostStore";
 import { useQuery } from "@tanstack/react-query";
+import { useLikePostMutation } from "@/services/posts/mutations";
 
 type ForumPostCardProps = {
   post: PostResponse;
@@ -17,6 +18,7 @@ type ForumPostCardProps = {
 
 const ForumPostCard = ({ post }: ForumPostCardProps) => {
   const { setCurrentPost } = usePostStore.getState();
+  const { mutate: likePost } = useLikePostMutation();
 
   const {
     data: currentUser,
@@ -38,6 +40,14 @@ const ForumPostCard = ({ post }: ForumPostCardProps) => {
   const handlePostDetailsSubmit = () => {
     setCurrentPost(post);
     router.push(`/post-expanded?postId=${post.id}`);
+  };
+
+  const handleLikePost = async () => {
+    try {
+      likePost(post.id);
+    } catch (error) {
+      console.error("Failed to like post", error);
+    }
   };
 
   const renderEditButton = () => (
@@ -63,7 +73,7 @@ const ForumPostCard = ({ post }: ForumPostCardProps) => {
     </View>
   );
 
-  const renderComment = (length: number) => (
+  const renderComment = (numberOfComments: number) => (
     <TouchableOpacity
       style={{ flexDirection: "row", gap: 4 }}
       onPress={handlePostDetailsSubmit}
@@ -73,12 +83,25 @@ const ForumPostCard = ({ post }: ForumPostCardProps) => {
         resizeMode="contain"
         style={{ width: 20, height: 20 }}
       />
-      <AppText>{length}</AppText>
+      <AppText>{numberOfComments}</AppText>
     </TouchableOpacity>
   );
 
-  // destructured post object
-  const { user, comments, content, createdAt, title, tags = [] } = post;
+  const renderLikes = (numberOfLikes: number) => (
+    <TouchableOpacity
+      style={{ flexDirection: "row", gap: 4 }}
+      onPress={handleLikePost}
+    >
+      <Image
+        source={icons.thumbsUp}
+        resizeMode="contain"
+        style={{ width: 20, height: 20 }}
+      />
+      <AppText>{numberOfLikes}</AppText>
+    </TouchableOpacity>
+  );
+
+  const { user, comments, likes, content, createdAt, title, tags = [] } = post;
 
   return (
     <View style={styles.cardContainer}>
@@ -99,7 +122,17 @@ const ForumPostCard = ({ post }: ForumPostCardProps) => {
       <AppText textStyles={styles.postTitle}>{title}</AppText>
       {renderCategoryTag(tags)}
       <AppText textStyles={{ marginVertical: 16 }}>{content}</AppText>
-      {renderComment(comments)}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          gap: 10,
+        }}
+      >
+        {renderComment(comments)}
+        {renderLikes(likes)}
+      </View>
     </View>
   );
 };
