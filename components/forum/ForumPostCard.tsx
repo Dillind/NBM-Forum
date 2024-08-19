@@ -10,6 +10,7 @@ import { getCurrentUser } from "@/constants/primitives";
 import { formatDate } from "@/utils/formatDate";
 import { usePostStore } from "@/store/usePostStore";
 import { useQuery } from "@tanstack/react-query";
+import { useLikePostMutation } from "@/services/posts/mutations";
 
 type ForumPostCardProps = {
   post: PostResponse;
@@ -17,6 +18,7 @@ type ForumPostCardProps = {
 
 const ForumPostCard = ({ post }: ForumPostCardProps) => {
   const { setCurrentPost } = usePostStore.getState();
+  const { mutate: likePost } = useLikePostMutation();
 
   const {
     data: currentUser,
@@ -38,6 +40,14 @@ const ForumPostCard = ({ post }: ForumPostCardProps) => {
   const handlePostDetailsSubmit = () => {
     setCurrentPost(post);
     router.push(`/post-expanded?postId=${post.id}`);
+  };
+
+  const handleLikePost = async () => {
+    try {
+      likePost(post.id);
+    } catch (error) {
+      console.error("Failed to like post", error);
+    }
   };
 
   const renderEditButton = () => (
@@ -78,7 +88,10 @@ const ForumPostCard = ({ post }: ForumPostCardProps) => {
   );
 
   const renderLikes = (numberOfLikes: number) => (
-    <TouchableOpacity style={{ flexDirection: "row", gap: 4 }}>
+    <TouchableOpacity
+      style={{ flexDirection: "row", gap: 4 }}
+      onPress={handleLikePost}
+    >
       <Image
         source={icons.thumbsUp}
         resizeMode="contain"
