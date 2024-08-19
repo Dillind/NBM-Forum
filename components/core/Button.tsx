@@ -25,13 +25,7 @@ const Button = ({ title, outlined, onPress, href }: ButtonProps) => {
       activeOpacity={0.7}
       style={
         (styles.container,
-        outlined
-          ? {
-              backgroundColor: "#FFFFFF",
-              borderColor: "#6537FF",
-              borderWidth: 2,
-            }
-          : { backgroundColor: "#6537FF" })
+        outlined ? styles.buttonOutline : { backgroundColor: "#6537FF" })
       }
     >
       <View style={styles.buttonContainer}>
@@ -70,6 +64,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 9,
     padding: 16,
+  },
+  buttonOutline: {
+    backgroundColor: "#FFFFFF",
+    borderColor: "#6537FF",
+    borderWidth: 2,
   },
 });
 
