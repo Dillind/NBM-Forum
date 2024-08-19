@@ -18,9 +18,9 @@ type setDataType =
   | { step: 3; data: SignUpPasswords };
 
 const stepVariant = {
-  1: "stepOne",
-  2: "stepTwo",
-  3: "stepThree",
+  1: "stepOnePersonalInformation",
+  2: "stepTwoLocation",
+  3: "stepThreePasswords",
 };
 
 const initialUserState: UserFormData = {
@@ -56,18 +56,16 @@ export const useRegisterStore = create<RegisterStoreState>((set) => ({
   stepThree: null,
   setData: ({ step, data }) => {
     set((state) => {
-      // Determine the relevant step key
       const stepKey = stepVariant[step];
 
       // Create a new user object by merging existing state with new data
       const newUser = {
         ...state.user,
-        ...data, // Merge with new data
+        ...data,
       };
 
       return {
         ...state,
-        // Update the specific step data
         [stepKey]: data,
         // Update the user object with the merged data
         user: newUser,
@@ -77,9 +75,9 @@ export const useRegisterStore = create<RegisterStoreState>((set) => ({
   reset: () => {
     set(() => ({
       user: initialUserState,
-      stepOne: null,
-      stepTwo: null,
-      stepThree: null,
+      stepOnePersonalInformation: null,
+      stepTwoLocation: null,
+      stepThreePasswords: null,
     }));
   },
 }));
