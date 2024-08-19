@@ -1,5 +1,5 @@
 import icons from "@/constants/icons";
-import { Link, router } from "expo-router";
+import { Href, Link, router } from "expo-router";
 import { Text, View, StyleSheet, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AppText from "./AppText";
@@ -8,7 +8,7 @@ type ButtonProps = {
   title: string;
   outlined?: boolean;
   onPress?: () => void;
-  href?: string;
+  href?: Href;
 };
 
 const Button = ({ title, outlined, onPress, href }: ButtonProps) => {
