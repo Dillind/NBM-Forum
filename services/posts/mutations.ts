@@ -17,7 +17,22 @@ export const useCreatePostMutation = () => {
       router.push("/forum");
     },
     onError: async (error) => {
-      console.error("Failed to create post", error);
+      console.error("Failed to create post:", error);
+    },
+  });
+};
+
+export const useLikePostMutation = () => {
+  return useMutation({
+    mutationFn: async (postId: number) => {
+      const response = await PostService.likePost(postId);
+      return response;
+    },
+    onSuccess: async () => {
+      console.log("Successfully liked the post");
+    },
+    onError: async (error) => {
+      console.error("Failed to like post:", error);
     },
   });
 };
