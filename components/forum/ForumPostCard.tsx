@@ -63,7 +63,7 @@ const ForumPostCard = ({ post }: ForumPostCardProps) => {
     </View>
   );
 
-  const renderComment = (length: number) => (
+  const renderComment = (numberOfComments: number) => (
     <TouchableOpacity
       style={{ flexDirection: "row", gap: 4 }}
       onPress={handlePostDetailsSubmit}
@@ -73,12 +73,22 @@ const ForumPostCard = ({ post }: ForumPostCardProps) => {
         resizeMode="contain"
         style={{ width: 20, height: 20 }}
       />
-      <AppText>{length}</AppText>
+      <AppText>{numberOfComments}</AppText>
     </TouchableOpacity>
   );
 
-  // destructured post object
-  const { user, comments, content, createdAt, title, tags = [] } = post;
+  const renderLikes = (numberOfLikes: number) => (
+    <TouchableOpacity style={{ flexDirection: "row", gap: 4 }}>
+      <Image
+        source={icons.thumbsUp}
+        resizeMode="contain"
+        style={{ width: 20, height: 20 }}
+      />
+      <AppText>{numberOfLikes}</AppText>
+    </TouchableOpacity>
+  );
+
+  const { user, comments, likes, content, createdAt, title, tags = [] } = post;
 
   return (
     <View style={styles.cardContainer}>
@@ -99,7 +109,17 @@ const ForumPostCard = ({ post }: ForumPostCardProps) => {
       <AppText textStyles={styles.postTitle}>{title}</AppText>
       {renderCategoryTag(tags)}
       <AppText textStyles={{ marginVertical: 16 }}>{content}</AppText>
-      {renderComment(comments)}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          gap: 10,
+        }}
+      >
+        {renderComment(comments)}
+        {renderLikes(likes)}
+      </View>
     </View>
   );
 };
