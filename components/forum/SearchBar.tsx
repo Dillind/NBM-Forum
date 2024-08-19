@@ -1,13 +1,8 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import React, { useState } from "react";
-import AppText from "../core/AppText";
 import icons from "@/constants/icons";
 import { padding } from "@/utils/paddingStyling";
-import Colors from "@/constants/colors";
 import { TextInput } from "react-native-gesture-handler";
-
-// TODO: Accept state for searchTerms
-// Import AuthPost.search service
 
 type SearchBarProps = {
   value: string;
