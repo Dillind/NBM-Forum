@@ -1,5 +1,4 @@
 import Button from "@/components/core/Button";
-import ErrorMessage from "@/components/core/ErrorMessage";
 import FormField from "@/components/core/FormField";
 import { router } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
@@ -10,9 +9,6 @@ import { useRegisterStore } from "@/store/useRegisterStore";
 import AppText from "@/components/core/AppText";
 import SignUpScreenView from "@/components/auth/SignUpScreenView";
 import Colors from "@/constants/colors";
-
-// TODO: react-hook-form for COMPONENT STATE MANAGEMENT
-// TODO: zustand for GLOBAL STATE MANAGEMENT TO KEEP TRACK ACROSS MULTIPLE SCREENS
 
 const SignUp = () => {
   const {
@@ -48,10 +44,8 @@ const SignUp = () => {
                     value={value}
                     onChangeText={onChange}
                     requiredInput
+                    error={errors.firstName?.message}
                   />
-                  {errors.firstName && (
-                    <ErrorMessage error={errors.firstName.message} />
-                  )}
                 </>
               )}
               rules={{ required: "You must enter a first name." }}
@@ -65,10 +59,8 @@ const SignUp = () => {
                     placeholder="Enter your last name here"
                     value={value}
                     onChangeText={onChange}
+                    error={errors.lastName?.message}
                   />
-                  {errors.lastName && (
-                    <ErrorMessage error={errors.lastName.message} />
-                  )}
                 </>
               )}
               rules={{ required: "You must enter a last name." }}
@@ -85,8 +77,8 @@ const SignUp = () => {
                   value={value}
                   onChangeText={onChange}
                   requiredInput
+                  error={errors.email?.message}
                 />
-                {errors.email && <ErrorMessage error={errors.email.message} />}
               </>
             )}
             rules={{ required: "You must enter an email address." }}
@@ -102,10 +94,8 @@ const SignUp = () => {
                   value={value}
                   onChangeText={onChange}
                   requiredInput
+                  error={errors.telephone?.message}
                 />
-                {errors.telephone && (
-                  <ErrorMessage error={errors.telephone.message} />
-                )}
               </>
             )}
             rules={{
