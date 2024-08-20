@@ -15,7 +15,7 @@ import SelectImageFileToUpload from "@/components/auth/SelectImageToUpload";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const PersonalInformation = () => {
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<string>("");
   const [uploading, setUploading] = useState(false);
   const { top, bottom } = useSafeAreaInsets();
   const { setUser, user } = useUserStore();
@@ -49,7 +49,7 @@ const PersonalInformation = () => {
     }
   };
 
-  const handleImageUpload = async (imageUri: string) => {
+  const handleImageUpload = async (imageUri: string): Promise<void | null> => {
     if (!imageUri) return null;
     setUploading(true);
     try {
@@ -113,7 +113,11 @@ const PersonalInformation = () => {
     <GestureHandlerRootView
       style={[styles.container, { paddingTop: top, paddingBottom: bottom }]}
     >
-      <TopBarSave title="Save" imageSubmit={() => handleImageUpload(image!!)} />
+      <TopBarSave
+        title="Save"
+        imageSubmit={() => image && handleImageUpload(image)}
+        image={image!!}
+      />
       <View style={{ marginTop: 16 }}>
         <AppText
           textStyles={{
