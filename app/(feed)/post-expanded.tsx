@@ -19,6 +19,7 @@ const PostExpanded = () => {
 
   // converts the postId string to a number
   const numericPostId = Number(postId);
+  console.log(numericPostId);
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["fetchComments", numericPostId],
@@ -96,6 +97,7 @@ const PostExpanded = () => {
             </View>
           }
           contentContainerStyle={styles.listContentContainer}
+          initialNumToRender={5}
           extraData={numericPostId}
         />
         <View style={styles.replyBar}>

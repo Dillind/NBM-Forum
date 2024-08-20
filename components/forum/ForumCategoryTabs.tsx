@@ -2,32 +2,51 @@ import { View, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 import React, { useState } from "react";
 import Colors from "@/constants/colors";
 import { padding } from "@/utils/paddingStyling";
-import { type Category } from "@/types/post";
-import { CATEGORIES } from "@/constants/categories";
 import AppText from "../core/AppText";
+import { Tag } from "@/types/tags";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import TagService from "@/services/tags/queries";
 
 type Props = {
   onCategorySelect: (category: string) => void;
 };
 
 const ForumCategoryTabs = ({ onCategorySelect }: Props) => {
-  const [selectedId, setSelectedId] = useState(1);
+  const [selectedTagName, setSelectedTagName] = useState<string | null>(null);
 
-  const handlePress = (category: Category) => {
-    setSelectedId(category.id);
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+    queryKey: ["tags"],
+    queryFn: async ({ pageParam = 1 }) => {
+      const result = await TagService.getTags({
+        page: pageParam,
+        limit: 10,
+      });
+      return result;
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.data.length === 0) return undefined;
+      return allPages.length + 1;
+    },
+  });
+
+  const tags = data?.pages.flatMap((page) => page.data);
+
+  const handlePress = (category: Tag) => {
+    setSelectedTagName(category.name);
     onCategorySelect(category.name);
   };
 
-  const renderCategoryTags = ({ item }: { item: Category }) => {
+  const renderCategoryTags = ({ item }: { item: Tag }) => {
     const backgroundColor =
-      item.id === selectedId ? Colors.primaryColor : Colors.greyLight;
+      item.name === selectedTagName ? Colors.primaryColor : Colors.greyLight;
 
-    const textColor = item.id === selectedId ? "#FFFFF" : Colors.black;
+    const textColor = item.name === selectedTagName ? "FFFFF" : Colors.black;
 
     return (
       <TouchableOpacity
         onPress={() => handlePress(item)}
-        style={[styles.tab, { backgroundColor }]}
+        style={[styles.tab, { backgroundColor: backgroundColor }]}
       >
         <AppText textStyles={{ color: textColor }}>{item.name}</AppText>
       </TouchableOpacity>
@@ -37,13 +56,16 @@ const ForumCategoryTabs = ({ onCategorySelect }: Props) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={CATEGORIES}
+        data={tags}
         renderItem={renderCategoryTags}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.name}
+        onEndReached={() => {
+          if (hasNextPage) fetchNextPage();
+        }}
+        initialNumToRender={5}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.tabWrapper}
-        extraData={selectedId}
       />
     </View>
   );

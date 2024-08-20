@@ -14,7 +14,7 @@ import Colors from "@/constants/colors";
 
 const Forum = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("Design");
+  const [selectedCategory, setSelectedCategory] = useState<string>("Apple");
   const { top, bottom } = useSafeAreaInsets();
 
   const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
@@ -86,7 +86,6 @@ const Forum = () => {
         </View>
       );
     }
-
     return null;
   };
 

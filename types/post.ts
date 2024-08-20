@@ -14,17 +14,13 @@ export type SearchPostParams = {
 
 export type SearchPostResponse = {
   total: number;
+  data: PostResponse[];
   nextPage: number;
   totalPages: number;
-  data: PostResponse[];
   currentPage: number;
   length: number;
   hasMore: boolean;
 };
-
-export type Tag = {
-  name: string;
-}[];
 
 export type PostResponse = {
   id: number;
@@ -39,8 +35,8 @@ export type PostResponse = {
   }[];
 };
 
-export type Category = {
-  id: number;
-  name: string;
-  checked?: boolean;
-};
+// export type Category = {
+//   id: number;
+//   name: string;
+//   checked?: boolean;
+// };

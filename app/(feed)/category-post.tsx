@@ -4,14 +4,34 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Checkbox from "expo-checkbox";
-import { CATEGORIES } from "@/constants/categories";
 import { useCreatePostStore } from "@/store/useCreatePostStore";
 import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import TagService from "@/services/tags/queries";
 
 const CategoryPost = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const { top, bottom } = useSafeAreaInsets();
+  const { post, setData } = useCreatePostStore.getState();
+
+  const { data } = useInfiniteQuery({
+    queryKey: ["tags"],
+    queryFn: async ({ pageParam = 1 }) => {
+      const result = await TagService.getTags({
+        page: pageParam,
+        limit: 10,
+      });
+      return result;
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.data.length === 0) return undefined;
+      return allPages.length + 1;
+    },
+  });
+
+  const tags = data?.pages.flatMap((page) => page.data) || [];
 
   const handleCheckboxChange = (categoryName: string) => {
     const isSelected = selectedCategories.includes(categoryName);
@@ -20,10 +40,7 @@ const CategoryPost = () => {
       : [...selectedCategories, categoryName];
 
     setSelectedCategories(updatedCategories);
-    console.log("Selected categories:", updatedCategories);
   };
-
-  const { post, setData } = useCreatePostStore.getState();
 
   const handleSubmit = () => {
     const postData = {
@@ -50,8 +67,8 @@ const CategoryPost = () => {
           Select a Category
         </AppText>
         <View>
-          {CATEGORIES.map((category) => (
-            <View style={styles.checkboxText} key={category.id}>
+          {tags.map((category) => (
+            <View style={styles.checkboxText} key={category.name}>
               <Checkbox
                 style={styles.checkboxIcon}
                 onValueChange={() => handleCheckboxChange(category.name)}
