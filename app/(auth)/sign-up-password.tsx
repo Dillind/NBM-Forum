@@ -1,7 +1,6 @@
 import SignUpScreenView from "@/components/auth/SignUpScreenView";
 import AppText from "@/components/core/AppText";
 import Button from "@/components/core/Button";
-import ErrorMessage from "@/components/core/ErrorMessage";
 import FormField from "@/components/core/FormField";
 import icons from "@/constants/icons";
 import { useRegisterStore } from "@/store/useRegisterStore";
@@ -11,6 +10,7 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Image, StyleSheet, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 const SignUpPassword = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -44,86 +44,87 @@ const SignUpPassword = () => {
       subHeading="Let's keep your NBM account safe with a secure password."
       step={3}
     >
-      <View style={styles.formContainer}>
-        <Controller
-          control={control}
-          name="password"
-          render={({ field: { onChange, value } }) => (
-            <FormField
-              title="Create a Password"
-              placeholder="Enter your password"
-              value={value}
-              onChangeText={onChange}
-              requiredInput
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.formContainer}>
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { onChange, value } }) => (
+              <FormField
+                title="Create a Password"
+                placeholder="Enter your password"
+                value={value}
+                onChangeText={onChange}
+                requiredInput
+                error={errors.password?.message}
+              />
+            )}
+            rules={{ required: "You must enter your password" }}
+          />
+          <Controller
+            control={control}
+            name="confirmPassword"
+            render={({ field: { onChange, value } }) => (
+              <FormField
+                title="Confirm Password"
+                placeholder="Re-enter your password"
+                value={value}
+                onChangeText={onChange}
+                requiredInput
+                error={errors.confirmPassword?.message}
+              />
+            )}
+            rules={{ required: "You must re-enter your password" }}
+          />
+        </View>
+        <View style={styles.criteria}>
+          <AppText textStyles={styles.textStyle}>Your password must...</AppText>
+          <View style={styles.iconText}>
+            <Image
+              source={icons.counter}
+              style={{ width: 20, height: 20 }}
+              resizeMode="contain"
             />
-          )}
-          rules={{ required: "You must enter your password" }}
-        />
-        <Controller
-          control={control}
-          name="confirmPassword"
-          render={({ field: { onChange, value } }) => (
-            <FormField
-              title="Confirm Password"
-              placeholder="Re-enter your password"
-              value={value}
-              onChangeText={onChange}
-              requiredInput
+            <AppText textStyles={styles.textStyle}>
+              Include at least one number (eg. 1)
+            </AppText>
+          </View>
+          <View style={styles.iconText}>
+            <Image
+              source={icons.hash}
+              style={{ width: 20, height: 20 }}
+              resizeMode="contain"
             />
-          )}
-          rules={{ required: "You must re-enter your password" }}
-        />
-        {errors.confirmPassword && (
-          <ErrorMessage error={errors.confirmPassword.message} />
-        )}
-      </View>
-      <View style={styles.criteria}>
-        <AppText textStyles={styles.textStyle}>Your password must...</AppText>
-        <View style={styles.iconText}>
-          <Image
-            source={icons.counter}
-            style={{ width: 20, height: 20 }}
-            resizeMode="contain"
+            <AppText textStyles={styles.textStyle}>
+              Include at least one symbol (eg. #)
+            </AppText>
+          </View>
+          <View style={styles.iconText}>
+            <Image
+              source={icons.textFields}
+              style={{ width: 20, height: 20 }}
+              resizeMode="contain"
+            />
+            <AppText textStyles={styles.textStyle}>
+              Include at least one upper and lowercase character
+            </AppText>
+          </View>
+        </View>
+        <View style={styles.checkboxText}>
+          <Checkbox
+            style={styles.checkboxIcon}
+            value={isChecked}
+            onValueChange={setIsChecked}
+            color={isChecked ? "#4630EB" : undefined}
           />
-          <AppText textStyles={styles.textStyle}>
-            Include at least one number (eg. 1)
+          <AppText textStyles={{ color: "rgba(56, 57, 57, 0.4 " }}>
+            By ticking this box, I agree to the terms and conditions of NBM.
           </AppText>
         </View>
-        <View style={styles.iconText}>
-          <Image
-            source={icons.hash}
-            style={{ width: 20, height: 20 }}
-            resizeMode="contain"
-          />
-          <AppText textStyles={styles.textStyle}>
-            Include at least one symbol (eg. #)
-          </AppText>
+        <View style={{ marginTop: 32, gap: 8 }}>
+          <Button title="Next" onPress={handleSubmit(onSubmit)} />
         </View>
-        <View style={styles.iconText}>
-          <Image
-            source={icons.textFields}
-            style={{ width: 20, height: 20 }}
-            resizeMode="contain"
-          />
-          <AppText textStyles={styles.textStyle}>
-            Include at least one upper and lowercase character
-          </AppText>
-        </View>
-      </View>
-      <View style={styles.checkboxText}>
-        <Checkbox
-          style={styles.checkboxIcon}
-          value={isChecked}
-          onValueChange={setIsChecked}
-          color={isChecked ? "#4630EB" : undefined}
-        />
-        <AppText textStyles={{ color: "rgba(56, 57, 57, 0.4 " }}>
-          By ticking this box, I agree to the terms and conditions of NBM.
-        </AppText>
-      </View>
-      <View style={{ marginTop: 32, gap: 8 }}>
-        <Button title="Next" onPress={handleSubmit(onSubmit)} />
-      </View>
+      </ScrollView>
     </SignUpScreenView>
   );
 };
