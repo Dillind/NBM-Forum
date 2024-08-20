@@ -9,7 +9,8 @@ type TopBarSaveProps = {
   href?: Href;
   onPress?: () => void;
   disabled?: boolean;
-  imageSubmit?: (imageUri?: string) => void;
+  imageSubmit?: (imageUri: string) => void;
+  image?: string;
 };
 
 const TopBarSave = ({
@@ -18,14 +19,15 @@ const TopBarSave = ({
   onPress,
   disabled,
   imageSubmit,
+  image,
 }: TopBarSaveProps) => {
   const handlePress = () => {
     if (href) {
       router.push(href);
     } else if (onPress) {
       onPress();
-    } else if (imageSubmit) {
-      imageSubmit();
+    } else if (imageSubmit && image) {
+      imageSubmit(image);
     } else {
       router.back();
     }
