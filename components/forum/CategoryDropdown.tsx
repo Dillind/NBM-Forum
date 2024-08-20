@@ -1,13 +1,14 @@
 import { View, StyleSheet, Image } from "react-native";
 import React, { useState } from "react";
 import { Dropdown } from "react-native-element-dropdown";
-import { CATEGORIES } from "@/constants/categories";
 import Colors from "@/constants/colors";
 import { padding } from "@/utils/paddingStyling";
 import icons from "@/constants/icons";
-import { Category } from "@/types/post";
 import { usePostStore } from "@/store/usePostStore";
 import { useCreatePostStore } from "@/store/useCreatePostStore";
+import { Tag } from "@/types/tags";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import TagService from "@/services/tags/queries";
 
 type CategoryDropdownProps = {
   context: "create" | "edit";
@@ -16,6 +17,24 @@ type CategoryDropdownProps = {
 const CategoryDropdown = ({ context }: CategoryDropdownProps) => {
   const { currentPost } = usePostStore.getState();
   const { post } = useCreatePostStore.getState();
+
+  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
+    queryKey: ["tags"],
+    queryFn: async ({ pageParam = 1 }) => {
+      const result = await TagService.getTags({
+        page: pageParam,
+        limit: 10,
+      });
+      return result;
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.data.length === 0) return undefined;
+      return allPages.length + 1;
+    },
+  });
+
+  const tags = data?.pages.flatMap((page) => page.data) || [];
 
   const editPostValue =
     currentPost?.tags && currentPost?.tags.length > 0
@@ -27,7 +46,7 @@ const CategoryDropdown = ({ context }: CategoryDropdownProps) => {
 
   const defaultCategory = context === "edit" ? editPostValue : createPostValue;
 
-  const [value, setValue] = useState<string | Category>(defaultCategory);
+  const [value, setValue] = useState<string | Tag>(defaultCategory);
   const [isFocus, setIsFocus] = useState(false);
 
   return (
@@ -37,7 +56,7 @@ const CategoryDropdown = ({ context }: CategoryDropdownProps) => {
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
-        data={CATEGORIES}
+        data={tags}
         maxHeight={214}
         labelField="name"
         valueField="name"
