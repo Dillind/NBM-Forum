@@ -1,19 +1,11 @@
 import SignUpScreenView from "@/components/auth/SignUpScreenView";
 import Button from "@/components/core/Button";
 import { useRegisterStore } from "@/store/useRegisterStore";
-import { Address } from "@/types/user";
 import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 const SignUpLocation = () => {
-  // TODO: Incorporate when you have access to the google places API
-  // const {
-  //   control,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = useForm<Address>();
-
   const { setData } = useRegisterStore();
 
   useEffect(() => {
