@@ -1,12 +1,13 @@
 import icons from "@/constants/icons";
-import { Href, Link, router } from "expo-router";
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Href, router } from "expo-router";
+import { View, StyleSheet, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AppText from "./AppText";
+import Colors from "@/constants/colors";
 
 type ButtonProps = {
   title: string;
-  outlined?: boolean;
+  outlined?: boolean | undefined;
   onPress?: () => void;
   href?: Href;
 };
@@ -25,7 +26,9 @@ const Button = ({ title, outlined, onPress, href }: ButtonProps) => {
       activeOpacity={0.7}
       style={
         (styles.container,
-        outlined ? styles.buttonOutline : { backgroundColor: "#6537FF" })
+        outlined
+          ? styles.buttonOutline
+          : { backgroundColor: Colors.primaryColor })
       }
     >
       <View style={styles.buttonContainer}>
@@ -50,11 +53,11 @@ const styles = StyleSheet.create({
     height: 47,
   },
   textWhite: {
-    color: "#FFFFFF",
+    color: Colors.white,
     fontSize: 16,
   },
   textPurple: {
-    color: "#6537FF",
+    color: Colors.primaryColor,
     fontSize: 16,
   },
   buttonContainer: {
@@ -66,8 +69,8 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   buttonOutline: {
-    backgroundColor: "#FFFFFF",
-    borderColor: "#6537FF",
+    backgroundColor: Colors.white,
+    borderColor: Colors.primaryColor,
     borderWidth: 2,
   },
 });
