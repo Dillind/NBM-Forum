@@ -1,5 +1,5 @@
 import ForumHeader from "@/components/forum/ForumHeader";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View, ActivityIndicator } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import SearchBar from "@/components/forum/SearchBar";
 import { useCallback, useState } from "react";
@@ -10,30 +10,31 @@ import AppText from "@/components/core/AppText";
 import { PostResponse } from "@/types/post";
 import ForumPostCard from "@/components/forum/ForumPostCard";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Colors from "@/constants/colors";
 
 const Forum = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("Design");
   const { top, bottom } = useSafeAreaInsets();
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["posts", selectedCategory],
-    queryFn: async ({ pageParam = 1 }) => {
-      const result = await PostService.searchPosts({
-        page: pageParam,
-        limit: 10,
-        tags: selectedCategory ? [selectedCategory] : [],
-      });
-      return result;
-    },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.length === 0) return undefined;
-      return allPages.length + 1;
-    },
-  });
+  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["posts", selectedCategory],
+      queryFn: async ({ pageParam = 1 }) => {
+        const result = await PostService.searchPosts({
+          page: pageParam,
+          limit: 10,
+          tags: selectedCategory ? [selectedCategory] : [],
+        });
+        return result;
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages) => {
+        if (lastPage.data.length === 0) return undefined;
+        return allPages.length + 1;
+      },
+    });
 
-  // Combines all pages of data and sorts the posts in descending order (from newest to oldest) //TODO: Look into.
   const posts =
     data?.pages
       .flatMap((page) => page.data)
@@ -61,6 +62,34 @@ const Forum = () => {
     []
   );
 
+  const renderEmptyComponent = () => {
+    if (isFetching && !data) {
+      return (
+        <View style={{ marginTop: 20 }}>
+          <ActivityIndicator size="small" color={Colors.primaryColor} />
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.emptyContainer}>
+        <AppText>No posts found.</AppText>
+      </View>
+    );
+  };
+
+  const renderFooterComponent = () => {
+    if (isFetchingNextPage) {
+      return (
+        <View style={{ paddingVertical: 20 }}>
+          <ActivityIndicator size="small" color={Colors.primaryColor} />
+        </View>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <GestureHandlerRootView
       style={[{ paddingTop: top, paddingBottom: bottom }, styles.container]}
@@ -83,12 +112,9 @@ const Forum = () => {
           if (hasNextPage) fetchNextPage();
         }}
         onEndReachedThreshold={0.5}
-        ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            {posts.length === 0 && <AppText>No posts found.</AppText>}
-          </View>
-        }
+        ListEmptyComponent={renderEmptyComponent}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ListFooterComponent={renderFooterComponent}
         initialNumToRender={5}
         showsVerticalScrollIndicator={false}
       />
@@ -111,5 +137,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 20,
   },
 });
