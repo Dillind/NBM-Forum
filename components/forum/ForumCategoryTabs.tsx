@@ -12,7 +12,7 @@ type Props = {
 };
 
 const ForumCategoryTabs = ({ onCategorySelect }: Props) => {
-  const [selectedTagName, setSelectedTagName] = useState<string | null>(null);
+  const [selectedTagName, setSelectedTagName] = useState<string>("Apple");
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["tags"],
