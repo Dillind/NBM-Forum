@@ -7,16 +7,25 @@ import Colors from "@/constants/colors";
 type TopBarSaveProps = {
   title?: string;
   href?: Href;
-  onPress?: (imageUri?: string) => void;
+  onPress?: () => void;
   disabled?: boolean;
+  imageSubmit?: (imageUri?: string) => void;
 };
 
-const TopBarSave = ({ title, href, onPress, disabled }: TopBarSaveProps) => {
+const TopBarSave = ({
+  title,
+  href,
+  onPress,
+  disabled,
+  imageSubmit,
+}: TopBarSaveProps) => {
   const handlePress = () => {
     if (href) {
       router.push(href);
     } else if (onPress) {
       onPress();
+    } else if (imageSubmit) {
+      imageSubmit();
     } else {
       router.back();
     }
