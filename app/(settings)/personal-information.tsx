@@ -24,13 +24,14 @@ const PersonalInformation = () => {
     data: currentUser,
     isLoading,
     isError,
+    error,
   } = useQuery({
     queryKey: ["currentUser"],
     queryFn: getCurrentUser,
   });
 
   if (isLoading) return <AppText>Loading...</AppText>;
-  if (isError) return <AppText>Error fetching user data</AppText>;
+  if (isError) return <AppText>Error: {error.message}</AppText>;
   if (!currentUser) return null;
 
   if (uploading) return <LoadingState />;
@@ -112,7 +113,7 @@ const PersonalInformation = () => {
     <GestureHandlerRootView
       style={[styles.container, { paddingTop: top, paddingBottom: bottom }]}
     >
-      <TopBarSave title="Save" onPress={() => handleImageUpload(image!!)} />
+      <TopBarSave title="Save" imageSubmit={() => handleImageUpload(image!!)} />
       <View style={{ marginTop: 16 }}>
         <AppText
           textStyles={{
@@ -128,7 +129,7 @@ const PersonalInformation = () => {
           <Image
             // TODO: Fix source error
             source={user ? { uri: user.avatar } : { uri: image }}
-            style={{ width: 183, height: 183, borderRadius: 9999 }}
+            style={styles.imageStyling}
           />
           <TouchableOpacity style={{ marginRight: 20 }} onPress={pickImage}>
             <AppText
@@ -172,4 +173,5 @@ const styles = StyleSheet.create({
     display: "flex",
     gap: 8,
   },
+  imageStyling: { width: 183, height: 183, borderRadius: 9999 },
 });
