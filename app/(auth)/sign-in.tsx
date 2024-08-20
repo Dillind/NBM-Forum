@@ -166,8 +166,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 2,
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: 200,
+    marginTop: 280,
   },
 });
 
