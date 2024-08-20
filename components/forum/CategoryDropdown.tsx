@@ -18,7 +18,7 @@ const CategoryDropdown = ({ context }: CategoryDropdownProps) => {
   const { currentPost } = usePostStore.getState();
   const { post } = useCreatePostStore.getState();
 
-  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
+  const { data } = useInfiniteQuery({
     queryKey: ["tags"],
     queryFn: async ({ pageParam = 1 }) => {
       const result = await TagService.getTags({
@@ -39,10 +39,10 @@ const CategoryDropdown = ({ context }: CategoryDropdownProps) => {
   const editPostValue =
     currentPost?.tags && currentPost?.tags.length > 0
       ? currentPost?.tags[0].name
-      : "Design";
+      : "Apple";
 
   const createPostValue =
-    post?.tags && post?.tags.length > 0 ? post?.tags[0] : "Design";
+    post?.tags && post?.tags.length > 0 ? post?.tags[0] : "Apple";
 
   const defaultCategory = context === "edit" ? editPostValue : createPostValue;
 
