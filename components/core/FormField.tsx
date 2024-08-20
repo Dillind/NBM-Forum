@@ -9,6 +9,7 @@ import {
   TextInput,
 } from "react-native";
 import AppText from "./AppText";
+import ErrorMessage from "./ErrorMessage";
 
 type FormFieldProps = {
   title?: string;
@@ -16,6 +17,7 @@ type FormFieldProps = {
   value?: string;
   onChangeText?: () => void;
   requiredInput?: boolean;
+  error?: string;
 };
 
 const FormField = ({
@@ -24,8 +26,8 @@ const FormField = ({
   value,
   onChangeText,
   requiredInput,
+  error,
 }: FormFieldProps) => {
-  
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -53,6 +55,7 @@ const FormField = ({
           </TouchableOpacity>
         )}
       </View>
+      {error && <ErrorMessage error={error} />}
     </View>
   );
 };
