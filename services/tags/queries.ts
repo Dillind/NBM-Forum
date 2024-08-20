@@ -13,7 +13,10 @@ type fetchTagsResponse = {
 };
 
 namespace TagService {
-  export const getTags = async ({ page, limit }: fetchTagsParams) => {
+  export const getTags = async ({
+    page,
+    limit,
+  }: fetchTagsParams): Promise<fetchTagsResponse> => {
     try {
       const axiosInstance = await createAxiosInstance();
       const response = await axiosInstance.get<fetchTagsResponse>(
