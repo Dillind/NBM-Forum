@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
 import React from "react";
 import { CommentResponse } from "@/types/comment";
 import AppText from "../core/AppText";
@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import CommentService from "@/services/comments/queries";
 import PostUserInformation from "./PostUserInformation";
 import WriteReplyInput from "./WriteReplyInput";
+import Colors from "@/constants/colors";
 
 type CommentThreadProps = {
   comment: CommentResponse;
@@ -29,7 +30,8 @@ const CommentThread = ({ comment }: CommentThreadProps) => {
   });
 
   const renderReplies = () => {
-    if (isLoading) return <AppText>Loading replies...</AppText>;
+    if (isLoading)
+      return <ActivityIndicator size="small" color={Colors.primaryColor} />;
     if (isError) return <AppText>Error: {error.message}</AppText>;
     if (!postCommentsReplies || postCommentsReplies.data.length === 0) {
       return <WriteReplyInput />;
