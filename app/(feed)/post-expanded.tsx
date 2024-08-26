@@ -60,6 +60,22 @@ const PostExpanded = () => {
     []
   );
 
+  const renderEmptyComponent = () => {
+    if (isFetching && !data) {
+      return (
+        <View style={{ marginTop: 20 }}>
+          <ActivityIndicator size="small" color={Colors.primaryColor} />
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.emptyContainer}>
+        <AppText>No comments found.</AppText>
+      </View>
+    );
+  };
+
   return (
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaView style={styles.innerContainer}>
