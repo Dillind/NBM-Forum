@@ -26,7 +26,7 @@ const PostExpanded = () => {
   const numericPostId = Number(postId);
 
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
-    queryKey: ["fetchComments", numericPostId],
+    queryKey: [queryKeys.fetchComments, numericPostId],
     queryFn: async ({ pageParam = 1 }) => {
       const result = await CommentService.getComments({
         postId: numericPostId,

@@ -26,7 +26,7 @@ const PersonalInformation = () => {
     isError,
     error,
   } = useQuery({
-    queryKey: ["currentUser"],
+    queryKey: [queryKeys.currentUser],
     queryFn: getCurrentUser,
   });
 

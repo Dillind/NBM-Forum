@@ -19,7 +19,7 @@ const Forum = () => {
 
   const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ["posts", selectedCategory],
+      queryKey: [queryKeys.posts, selectedCategory],
       queryFn: async ({ pageParam = 1 }) => {
         const result = await PostService.searchPosts({
           page: pageParam,

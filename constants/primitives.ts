@@ -15,7 +15,7 @@ export const getAccessToken = async () => {
 
 export const useAccessToken = async () => {
   return useQuery({
-    queryKey: ["accessToken"],
+    queryKey: [queryKeys.accessToken],
     queryFn: getAccessToken,
   });
 };
@@ -32,7 +32,7 @@ export const getCurrentUser = async (): Promise<User | null> => {
 
 export const useCurrentUser = async () => {
   return useQuery({
-    queryKey: ["currentUser"],
+    queryKey: [queryKeys.currentUser],
     queryFn: getCurrentUser,
   });
 };

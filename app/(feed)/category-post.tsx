@@ -16,7 +16,7 @@ const CategoryPost = () => {
   const { post, setData } = useCreatePostStore.getState();
 
   const { data } = useInfiniteQuery({
-    queryKey: ["tags"],
+    queryKey: [queryKeys.tags],
     queryFn: async ({ pageParam = 1 }) => {
       const result = await TagService.getTags({
         page: pageParam,

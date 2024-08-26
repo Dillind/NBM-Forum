@@ -26,7 +26,7 @@ const ForumPostCard = ({ post }: ForumPostCardProps) => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["currentUser"],
+    queryKey: [queryKeys.currentUser],
     queryFn: getCurrentUser,
   });
 

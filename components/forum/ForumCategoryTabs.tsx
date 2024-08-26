@@ -15,7 +15,7 @@ const ForumCategoryTabs = ({ onCategorySelect }: Props) => {
   const [selectedTagName, setSelectedTagName] = useState<string>("Apple");
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["tags"],
+    queryKey: [queryKeys.tags],
     queryFn: async ({ pageParam = 1 }) => {
       const result = await TagService.getTags({
         page: pageParam,

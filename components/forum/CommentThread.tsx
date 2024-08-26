@@ -19,7 +19,7 @@ const CommentThread = ({ comment }: CommentThreadProps) => {
     isError,
     error,
   } = useQuery({
-    queryKey: ["getReplies", comment.postId, comment.id],
+    queryKey: [queryKeys.getReplies, comment.postId, comment.id],
     queryFn: async () => {
       if (!comment.id) {
         return { data: [], total: 0 };
