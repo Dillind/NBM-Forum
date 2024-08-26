@@ -19,7 +19,6 @@ export default function Index() {
     "Syne-SemiBold": require("../assets/fonts/Syne-SemiBold.ttf"),
   });
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +26,6 @@ export default function Index() {
       try {
         const token = await AsyncStorage.getItem("accessToken");
         if (token) {
-          setIsLoggedIn(true);
           router.push("/forum");
         }
       } catch (error) {
