@@ -38,17 +38,18 @@ const ForumCategoryTabs = ({ onCategorySelect }: Props) => {
   };
 
   const renderCategoryTags = ({ item }: { item: Tag }) => {
-    const backgroundColor =
+    const tagBackgroundColor =
       item.name === selectedTagName ? Colors.primaryColor : Colors.greyLight;
 
-    const textColor = item.name === selectedTagName ? "FFFFF" : Colors.black;
+    const tagTextColor =
+      item.name === selectedTagName ? "#FFFFF" : Colors.black;
 
     return (
       <TouchableOpacity
         onPress={() => handlePress(item)}
-        style={[styles.tab, { backgroundColor: backgroundColor }]}
+        style={[styles.tab, { backgroundColor: tagBackgroundColor }]}
       >
-        <AppText textStyles={{ color: textColor }}>{item.name}</AppText>
+        <AppText textStyles={{ color: tagTextColor }}>{item.name}</AppText>
       </TouchableOpacity>
     );
   };
