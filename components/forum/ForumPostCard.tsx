@@ -1,5 +1,5 @@
 import { View, StyleSheet, Image } from "react-native";
-import { PostResponse, Tag } from "@/types/post";
+import { PostResponse } from "@/types/post";
 import AppText from "../core/AppText";
 import Colors from "@/constants/colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -11,6 +11,7 @@ import { formatDate } from "@/utils/formatDate";
 import { usePostStore } from "@/store/usePostStore";
 import { useQuery } from "@tanstack/react-query";
 import { useLikePostMutation } from "@/services/posts/mutations";
+import { Tag } from "@/types/tags";
 
 type ForumPostCardProps = {
   post: PostResponse;
@@ -50,20 +51,23 @@ const ForumPostCard = ({ post }: ForumPostCardProps) => {
     }
   };
 
-  const renderEditButton = () => (
-    <TouchableOpacity onPress={handleEditPost}>
-      <AppText
-        textStyles={{
-          color: Colors.primaryColor,
-          textDecorationLine: "underline",
-        }}
-      >
-        Edit
-      </AppText>
-    </TouchableOpacity>
-  );
+  const renderEditButton = () => {
+    if (currentUser?.id === post.user.id)
+      return (
+        <TouchableOpacity onPress={handleEditPost}>
+          <AppText
+            textStyles={{
+              color: Colors.primaryColor,
+              textDecorationLine: "underline",
+            }}
+          >
+            Edit
+          </AppText>
+        </TouchableOpacity>
+      );
+  };
 
-  const renderCategoryTag = (tags: Tag) => (
+  const renderCategoryTag = (tags: Tag[]) => (
     <View style={styles.tagWrapper}>
       {tags.map((tag, index) => (
         <View key={index}>
@@ -89,7 +93,7 @@ const ForumPostCard = ({ post }: ForumPostCardProps) => {
 
   const renderLikes = (numberOfLikes: number) => (
     <TouchableOpacity
-      style={{ flexDirection: "row", gap: 4 }}
+      style={{ flexDirection: "row", gap: 4, marginBottom: 2 }}
       onPress={handleLikePost}
     >
       <Image
@@ -117,7 +121,7 @@ const ForumPostCard = ({ post }: ForumPostCardProps) => {
             {formatDate(createdAt)}
           </AppText>
         </View>
-        <View>{currentUser?.id === post.user.id && renderEditButton()}</View>
+        <View>{renderEditButton()}</View>
       </View>
       <AppText textStyles={styles.postTitle}>{title}</AppText>
       {renderCategoryTag(tags)}
