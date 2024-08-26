@@ -19,11 +19,11 @@ export default function RootLayout() {
 
   return (
     <ReactQueryProvider>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="(feed)" options={{ headerShown: false }} />
-        <Stack.Screen name="(settings)" options={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(feed)" />
+        <Stack.Screen name="(settings)" />
       </Stack>
     </ReactQueryProvider>
   );
