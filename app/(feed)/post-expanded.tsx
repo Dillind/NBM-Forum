@@ -1,4 +1,9 @@
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  ActivityIndicator,
+} from "react-native";
 import React, { useCallback } from "react";
 import TopBar from "@/components/core/TopBar";
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
@@ -19,9 +24,8 @@ const PostExpanded = () => {
 
   // converts the postId string to a number
   const numericPostId = Number(postId);
-  console.log(numericPostId);
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
     queryKey: ["fetchComments", numericPostId],
     queryFn: async ({ pageParam = 1 }) => {
       const result = await CommentService.getComments({
@@ -101,19 +105,15 @@ const PostExpanded = () => {
             </>
           }
           data={comments}
-          keyExtractor={(item) => item?.id?.toString()}
+          keyExtractor={(item) => item?.id.toString()}
           renderItem={renderComments}
           onEndReached={() => {
             if (hasNextPage) fetchNextPage();
           }}
-          onEndReachedThreshold={0.5}
-          ListEmptyComponent={
-            <View style={styles.emptyContainer}>
-              {comments?.length === 0 && <AppText>No comments found.</AppText>}
-            </View>
-          }
-          contentContainerStyle={styles.listContentContainer}
           initialNumToRender={5}
+          onEndReachedThreshold={0.5}
+          ListEmptyComponent={renderEmptyComponent}
+          contentContainerStyle={styles.listContentContainer}
           extraData={numericPostId}
         />
         <View style={styles.replyBar}>
