@@ -22,7 +22,6 @@ const CreatePost = () => {
   const { top, bottom } = useSafeAreaInsets();
   const { setData } = useCreatePostStore();
   const onSubmit = (data: Post) => {
-    console.log(`Posted data:`, data);
     setData(data);
     router.push("/category-post");
   };
