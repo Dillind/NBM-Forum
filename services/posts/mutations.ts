@@ -1,9 +1,12 @@
-import { useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 import { Post, PostResponse } from "@/types/post";
 import PostService from "./queries";
 import { useCreatePostStore } from "@/store/useCreatePostStore";
 import { router } from "expo-router";
 import { Alert } from "react-native";
+import { queryKeys } from "@/constants/query-keys";
+
+const queryClient = new QueryClient();
 
 export const useCreatePostMutation = () => {
   return useMutation({
@@ -11,8 +14,9 @@ export const useCreatePostMutation = () => {
       const response: PostResponse = await PostService.createPost(post);
       return response;
     },
-    onSuccess: async () => {
+    onSuccess: async (newPost) => {
       Alert.alert("Post created successfully.");
+      await queryClient.setQueryData([queryKeys.posts, newPost.id], newPost);
       useCreatePostStore.getState().reset();
       router.push("/forum");
     },

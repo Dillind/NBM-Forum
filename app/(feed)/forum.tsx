@@ -11,6 +11,7 @@ import { PostResponse } from "@/types/post";
 import ForumPostCard from "@/components/forum/ForumPostCard";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
+import { queryKeys } from "@/constants/query-keys";
 
 const Forum = () => {
   const [searchTerm, setSearchTerm] = useState("");

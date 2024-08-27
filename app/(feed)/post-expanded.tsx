@@ -17,6 +17,7 @@ import Colors from "@/constants/colors";
 import { usePostStore } from "@/store/usePostStore";
 import ForumPostCard from "@/components/forum/ForumPostCard";
 import { CommentResponse } from "@/types/comment";
+import { queryKeys } from "@/constants/query-keys";
 
 const PostExpanded = () => {
   const { postId } = useLocalSearchParams();

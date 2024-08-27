@@ -12,6 +12,7 @@ import { usePostStore } from "@/store/usePostStore";
 import { useQuery } from "@tanstack/react-query";
 import { useLikePostMutation } from "@/services/posts/mutations";
 import { Tag } from "@/types/tags";
+import { queryKeys } from "@/constants/query-keys";
 
 type ForumPostCardProps = {
   post: PostResponse;

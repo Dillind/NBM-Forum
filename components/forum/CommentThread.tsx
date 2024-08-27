@@ -7,6 +7,7 @@ import CommentService from "@/services/comments/queries";
 import PostUserInformation from "./PostUserInformation";
 import WriteReplyInput from "./WriteReplyInput";
 import Colors from "@/constants/colors";
+import { queryKeys } from "@/constants/query-keys";
 
 type CommentThreadProps = {
   comment: CommentResponse;

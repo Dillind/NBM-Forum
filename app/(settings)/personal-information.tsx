@@ -1,7 +1,6 @@
 import AppText from "@/components/core/AppText";
 import FormField from "@/components/core/FormField";
 import TopBarSave from "@/components/core/TopBarSave";
-import Colors from "@/constants/colors";
 import { getCurrentUser } from "@/constants/primitives";
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -13,6 +12,8 @@ import { useUserStore } from "@/store/useUserStore";
 import LoadingState from "@/components/core/LoadingState";
 import SelectImageFileToUpload from "@/components/auth/SelectImageToUpload";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Colors from "@/constants/colors";
+import { queryKeys } from "@/constants/query-keys";
 
 const PersonalInformation = () => {
   const [image, setImage] = useState<string>("");

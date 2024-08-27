@@ -2,6 +2,7 @@ import { User } from "@/types/user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { queryKeys } from "@/constants/query-keys";
 
 export const getAccessToken = async () => {
   try {

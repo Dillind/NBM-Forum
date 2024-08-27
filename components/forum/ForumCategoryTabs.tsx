@@ -6,6 +6,7 @@ import AppText from "../core/AppText";
 import { Tag } from "@/types/tags";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import TagService from "@/services/tags/queries";
+import { queryKeys } from "@/constants/query-keys";
 
 type Props = {
   onCategorySelect: (category: string) => void;

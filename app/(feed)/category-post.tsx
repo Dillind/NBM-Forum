@@ -9,6 +9,8 @@ import { router } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import TagService from "@/services/tags/queries";
+import { queryKeys } from "@/constants/query-keys";
+import { TagsResponse } from "@/types/tags";
 
 const CategoryPost = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
