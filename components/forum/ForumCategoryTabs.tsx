@@ -43,7 +43,7 @@ const ForumCategoryTabs = ({ onCategorySelect }: Props) => {
       item.name === selectedTagName ? Colors.primaryColor : Colors.greyLight;
 
     const tagTextColor =
-      item.name === selectedTagName ? "#FFFFF" : Colors.black;
+      item.name === selectedTagName ? Colors.white : Colors.black;
 
     return (
       <TouchableOpacity
