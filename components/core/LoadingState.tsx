@@ -1,5 +1,5 @@
 import { View, StyleSheet, Image } from "react-native";
-import images from "@/constants/images"; // Adjust the import path as needed
+import images from "@/constants/images";
 import Colors from "@/constants/colors";
 
 const LoadingState = () => {
