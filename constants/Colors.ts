@@ -1,6 +1,6 @@
 const Colors = {
   primaryColor: "#6537FF",
-  black: "#00000",
+  black: "#000000",
   white: "rgba(255, 255, 255, 1)",
   charcoalLight: "rgba(56, 57, 57, 0.4)",
   charcoalDark: "rgba(56, 57, 57, 1)",
