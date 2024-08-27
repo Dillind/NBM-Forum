@@ -44,7 +44,7 @@ const SignIn = () => {
               setIsLoading(false);
               Alert.alert(
                 "Successful Login",
-                "You have been successfully logged in to NBM"
+                "You have been successfully logged into the NBM Forum"
               );
               router.push("/forum");
             }, 3000);
